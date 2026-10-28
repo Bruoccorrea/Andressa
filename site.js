@@ -19,7 +19,7 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("click", (event) => {
   if (navigation.classList.contains("is-open") && !header.contains(event.target)) setMenuState(false);
 });
-window.addEventListener("resize", () => { if (window.innerWidth > 960) setMenuState(false); });
+window.addEventListener("resize", () => { if (window.innerWidth > 1024) setMenuState(false); });
 
 // Sombra no cabeçalho ao rolar
 const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
@@ -66,3 +66,4 @@ faqItems.forEach((item) => item.addEventListener("toggle", () => {
 
 const currentYear = document.querySelector("#current-year");
 if (currentYear) currentYear.textContent = String(new Date().getFullYear());
+
