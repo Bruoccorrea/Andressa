@@ -301,7 +301,7 @@ app.patch("/api/clients/:id/status", requireAdmin, async (req, res) => {
   client.active = Boolean(req.body.active); client.updatedAt = new Date().toISOString(); await writeDb(db); res.json(publicClient(client));
 });
 
-const uploadStorage = useBlobStorage ? multer.memoryStorage() : multer.diskStorage({ destination: uploadDir, filename: (_req, file, callback) => callback(null, `${crypto.randomUUID()}${path.extname(file.originalname).toLowerCase()}`) });
+const uploadStorage = (useBlobStorage || process.env.VERCEL) ? multer.memoryStorage() : multer.diskStorage({ destination: uploadDir, filename: (_req, file, callback) => callback(null, `${crypto.randomUUID()}${path.extname(file.originalname).toLowerCase()}`) });
 const upload = multer({ storage: uploadStorage, limits: { fileSize: 2 * 1024 * 1024, files: 1 } });
 app.get("/api/clients/:id/documents", requireAdmin, (req, res) => { const client = req.db.clients.find((item) => item.id === req.params.id); if (!client) return res.status(404).json({ error: "Cliente não encontrado." }); res.json(newestDocumentsFirst(client.documents)); });
 app.post("/api/clients/:id/documents", requireAdmin, upload.single("file"), async (req, res) => {
