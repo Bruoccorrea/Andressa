@@ -1,0 +1,10 @@
+node_modules/
+data/db.json
+data/uploads/
+.env
+npm-debug.log*
+
+.vercel
+.env*
+!.env.example
+backup-site-antigo/

@@ -1,0 +1,18 @@
+{
+  "name": "andressa-alves-contabilidade",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional e portal de clientes da Andressa Alves Contabilidade",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env --watch server.js",
+    "migrate:blob": "node --env-file-if-exists=.env scripts/migrate-to-blob.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.3.0",
+    "cookie-session": "^2.1.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}

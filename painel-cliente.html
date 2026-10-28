@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesse seus documentos contábeis no portal de clientes da Andressa Alves Contabilidade.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="application-name" content="Painel do Cliente - Andressa Alves Contabilidade">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Painel do Cliente | Andressa Alves Contabilidade</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="painel.css">
+  <script src="painel.js?v=20260902-3" defer></script>
+</head>
+<body data-page="cliente" class="client-page">
+  <header class="panel-header">
+    <a class="panel-brand" href="index.html" aria-label="Andressa Alves Contabilidade - página inicial"><span class="panel-logo"><img src="brand-andressa-horizontal.png" alt="Andressa Alves Contabilidade"></span></a>
+    <div><strong>Painel do Cliente</strong><small>Acesso a documentos contábeis</small></div>
+    <a class="header-link" href="index.html">Voltar ao site</a>
+  </header>
+
+  <main class="client-main">
+    <section class="login-panel" id="acesso-section">
+      <p class="eyebrow">Área restrita</p><h1>Acesse seus documentos</h1>
+      <p>Informe seu e-mail ou CNPJ e a senha cadastrada pela Andressa Alves Contabilidade.</p>
+      <form id="acesso-form">
+        <label for="acesso-identificador">E-mail ou CNPJ</label><input id="acesso-identificador" type="text" maxlength="160" autocomplete="username" required>
+        <label for="acesso-senha">Senha</label><input id="acesso-senha" type="password" autocomplete="current-password" required>
+        <p class="access-error" id="acesso-error" aria-live="polite"></p>
+        <button class="primary-button" type="submit">Acessar painel</button>
+        <button class="forgot-password" type="button" data-forgot-password="client">Esqueci a senha</button>
+      </form>
+    </section>
+
+    <section class="client-dashboard" id="cliente-dashboard" hidden>
+      <div class="client-welcome"><div><p class="eyebrow">Sua empresa</p><h1 id="cliente-razao"></h1><p id="cliente-cnpj"></p></div><button class="secondary-button" id="sair" type="button">Sair</button></div>
+      <div class="documents-panel">
+        <div class="section-heading"><div><p class="eyebrow">Central de arquivos</p><h2>Seus documentos</h2></div><span class="status active">Acesso ativo</span></div>
+        <div class="document-tabs" role="tablist" aria-label="Categorias de documentos">
+          <button class="document-tab active" id="tab-atuais" type="button" role="tab" aria-selected="true" aria-controls="documentos-atuais">Guias atuais <span id="total-atuais">0</span></button>
+          <button class="document-tab" id="tab-passadas" type="button" role="tab" aria-selected="false" aria-controls="documentos-passados">Guias passadas <span id="total-passadas">0</span></button>
+        </div>
+        <div id="documentos-atuais" class="client-documents" role="tabpanel" aria-labelledby="tab-atuais"></div>
+        <div id="documentos-passados" class="client-documents" role="tabpanel" aria-labelledby="tab-passadas" hidden></div>
+      </div>
+    </section>
+  </main>
+  <dialog class="recovery-dialog" id="recovery-dialog" aria-labelledby="recovery-title">
+    <div class="dialog-heading"><div><p class="eyebrow">Recuperação de acesso</p><h2 id="recovery-title">Redefinir senha</h2></div><button class="icon-button" type="button" data-close-recovery aria-label="Fechar">×</button></div>
+    <form id="recovery-request-form">
+      <p class="dialog-description">Informe o e-mail cadastrado para receber um código de 6 dígitos.</p>
+      <label for="recovery-email">E-mail</label><input id="recovery-email" type="email" autocomplete="email" required>
+      <p class="field-error" id="recovery-request-error" aria-live="polite"></p><button class="primary-button" type="submit">Enviar código</button>
+    </form>
+    <form id="recovery-confirm-form" hidden>
+      <p class="dialog-description">Digite o código recebido e escolha uma nova senha.</p>
+      <label for="recovery-code">Código de 6 dígitos</label><input id="recovery-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required>
+      <label for="recovery-password">Nova senha</label><input id="recovery-password" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <p class="field-error" id="recovery-confirm-error" aria-live="polite"></p><button class="primary-button" type="submit">Redefinir senha</button>
+    </form>
+    <p class="dev-code" id="recovery-dev-code" hidden></p>
+  </dialog>
+</body>
+</html>

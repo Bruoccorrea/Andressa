@@ -1,0 +1,25 @@
+{
+  "id": "/painel-cliente.html",
+  "name": "Painel do Cliente - Andressa Alves Contabilidade",
+  "short_name": "Andressa Alves",
+  "description": "Acesse seus documentos contábeis.",
+  "start_url": "/painel-cliente.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

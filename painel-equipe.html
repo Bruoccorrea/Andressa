@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel administrativo da equipe Andressa Alves Contabilidade.">
+  <meta name="theme-color" content="#ffffff">
+  <title>Painel da Equipe | Andressa Alves Contabilidade</title>
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="stylesheet" href="painel.css">
+  <script src="painel.js?v=20260902-3" defer></script>
+</head>
+<body data-page="equipe">
+  <header class="panel-header">
+    <a class="panel-brand" href="index.html" aria-label="Andressa Alves Contabilidade - página inicial">
+      <span class="panel-logo"><img src="brand-andressa-horizontal.png" alt="Andressa Alves Contabilidade"></span>
+    </a>
+    <div><strong>Painel da Equipe</strong><small>Gestão de clientes e documentos</small></div>
+    <div class="header-actions"><a class="header-link" href="painel-cliente.html">Painel do cliente</a><button class="header-link button-link" id="admin-sair" type="button" hidden>Sair</button></div>
+  </header>
+
+  <section class="admin-login" id="admin-login">
+    <form id="admin-login-form" class="login-panel">
+      <p class="eyebrow">Área administrativa</p><h1>Acesso da equipe</h1>
+      <p>Entre com as credenciais administrativas para gerenciar clientes e documentos.</p>
+      <label for="admin-email">E-mail</label><input id="admin-email" type="email" autocomplete="username" required>
+      <label for="admin-password">Senha</label><input id="admin-password" type="password" autocomplete="current-password" required>
+      <p class="access-error" id="admin-login-error" aria-live="polite"></p>
+      <button class="primary-button" type="submit">Entrar</button>
+      <button class="forgot-password" type="button" data-forgot-password="admin">Esqueci a senha</button>
+      <p class="dev-credentials" id="dev-credentials" hidden></p>
+    </form>
+  </section>
+
+  <main class="panel-main" id="admin-dashboard" hidden>
+    <section class="summary" aria-label="Resumo dos clientes">
+      <div><span>Total de clientes</span><strong id="total-clientes">0</strong></div>
+      <div><span>Clientes ativos</span><strong id="clientes-ativos">0</strong></div>
+      <div><span>Clientes inativos</span><strong id="clientes-inativos">0</strong></div>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div><p class="eyebrow">Carteira de clientes</p><h1>Clientes cadastrados</h1></div>
+        <div class="heading-actions"><button class="secondary-button" id="gerenciar-usuarios" type="button">Usuários</button><button class="primary-button" id="novo-cliente" type="button">Novo cliente</button></div>
+      </div>
+
+      <div class="filters">
+        <label class="search-field"><span>Buscar cliente</span><input id="busca" type="search" placeholder="CNPJ, razão social, telefone ou e-mail"></label>
+        <label><span>Status</span><select id="filtro-status"><option value="todos">Todos</option><option value="ativo">Ativos</option><option value="inativo">Inativos</option></select></label>
+      </div>
+
+      <div class="client-list" id="lista-clientes" aria-live="polite"></div>
+      <div class="empty-state" id="estado-vazio" hidden><h2>Nenhum cliente encontrado</h2><p>Cadastre o primeiro cliente ou altere os filtros.</p></div>
+    </section>
+  </main>
+
+  <dialog id="cliente-dialog" aria-labelledby="form-title">
+    <form id="cliente-form" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">Cadastro</p><h2 id="form-title">Novo cliente</h2></div><button class="icon-button" type="button" data-close aria-label="Fechar">×</button></div>
+      <input id="cliente-id" type="hidden">
+      <label for="cnpj">CNPJ</label><input id="cnpj" type="text" inputmode="numeric" maxlength="18" placeholder="00.000.000/0000-00" autocomplete="off" required>
+      <p class="field-error" id="cnpj-error" aria-live="polite"></p>
+      <label for="razao-social">Razão social</label><input id="razao-social" type="text" maxlength="120" autocomplete="organization" required>
+      <label for="telefone">Telefone</label><input id="telefone" type="tel" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" autocomplete="tel" required>
+      <label for="email">E-mail</label><input id="email" type="email" maxlength="160" autocomplete="email" required>
+      <label for="cliente-senha">Senha de acesso</label><input id="cliente-senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <p class="field-help" id="senha-help">Use pelo menos 8 caracteres.</p>
+      <div class="dialog-actions"><button class="secondary-button" type="button" data-close>Cancelar</button><button class="primary-button" type="submit">Salvar cliente</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="documentos-dialog" aria-labelledby="docs-title">
+    <div class="dialog-heading"><div><p class="eyebrow">Arquivos do cliente</p><h2 id="docs-title">Documentos</h2></div><button class="icon-button" type="button" data-close-docs aria-label="Fechar">×</button></div>
+    <p id="docs-client-name" class="dialog-description"></p>
+    <form id="documento-form">
+      <label for="documento-nome">Nome do documento</label><input id="documento-nome" type="text" maxlength="100" placeholder="Ex.: Guia DAS - Setembro" required>
+      <label for="documento-vencimento">Data de vencimento <span class="optional-label">(opcional)</span></label><input id="documento-vencimento" type="date">
+      <label for="documento-arquivo">Arquivo</label><input id="documento-arquivo" type="file" required>
+      <p class="field-help">Tamanho máximo: 2 MB por arquivo.</p>
+      <button class="primary-button" type="submit">Adicionar documento</button>
+    </form>
+    <div id="lista-documentos" class="document-list" aria-live="polite"></div>
+  </dialog>
+
+  <dialog id="usuarios-dialog" aria-labelledby="usuarios-title">
+    <div class="dialog-heading"><div><p class="eyebrow">Equipe</p><h2 id="usuarios-title">Usuários da equipe</h2></div><button class="icon-button" type="button" data-close-users aria-label="Fechar">×</button></div>
+    <form id="usuario-form">
+      <input id="usuario-id" type="hidden">
+      <label for="usuario-nome">Nome do usuário</label><input id="usuario-nome" type="text" maxlength="100" autocomplete="name" required>
+      <label for="usuario-email">E-mail</label><input id="usuario-email" type="email" maxlength="160" autocomplete="email" required>
+      <label for="usuario-senha">Senha</label><input id="usuario-senha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <p class="field-help" id="usuario-senha-help">Use pelo menos 8 caracteres.</p>
+      <p class="field-error" id="usuario-error" aria-live="polite"></p>
+      <button class="primary-button" id="salvar-usuario" type="submit">Cadastrar usuário</button>
+    </form>
+    <div id="lista-usuarios" class="user-list" aria-live="polite"></div>
+  </dialog>
+
+  <dialog class="recovery-dialog" id="recovery-dialog" aria-labelledby="recovery-title">
+    <div class="dialog-heading"><div><p class="eyebrow">Recuperação de acesso</p><h2 id="recovery-title">Redefinir senha</h2></div><button class="icon-button" type="button" data-close-recovery aria-label="Fechar">×</button></div>
+    <form id="recovery-request-form">
+      <p class="dialog-description">Informe o e-mail cadastrado para receber um código de 6 dígitos.</p>
+      <label for="recovery-email">E-mail</label><input id="recovery-email" type="email" autocomplete="email" required>
+      <p class="field-error" id="recovery-request-error" aria-live="polite"></p><button class="primary-button" type="submit">Enviar código</button>
+    </form>
+    <form id="recovery-confirm-form" hidden>
+      <p class="dialog-description">Digite o código recebido e escolha uma nova senha.</p>
+      <label for="recovery-code">Código de 6 dígitos</label><input id="recovery-code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required>
+      <label for="recovery-password">Nova senha</label><input id="recovery-password" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <p class="field-error" id="recovery-confirm-error" aria-live="polite"></p><button class="primary-button" type="submit">Redefinir senha</button>
+    </form>
+    <p class="dev-code" id="recovery-dev-code" hidden></p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
