@@ -43,7 +43,7 @@ const sendRecoveryEmail = (to, name, code) => new Promise((resolve, reject) => {
 
 const createEmptyDb = () => ({ schemaVersion: 1, clients: [], users: [], passwordResets: [] });
 
-if (!useBlobStorage) {
+if (!useBlobStorage && !process.env.VERCEL) {
   fs.mkdirSync(uploadDir, { recursive: true });
   if (!fs.existsSync(dbPath)) fs.writeFileSync(dbPath, JSON.stringify(createEmptyDb(), null, 2));
 }
@@ -113,6 +113,12 @@ app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "DENY");
   if (production) res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   if (req.path.startsWith("/api/")) res.setHeader("Cache-Control", "no-store");
+  next();
+});
+app.use("/api", (_req, res, next) => {
+  if (process.env.VERCEL && (!useBlobStorage || !process.env.SESSION_SECRET)) {
+    return res.status(503).json({ error: "Portal temporariamente indisponível. A configuração do armazenamento e do acesso está em andamento." });
+  }
   next();
 });
 app.use(express.json({ limit: "100kb", strict: true }));
