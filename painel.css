@@ -28,3 +28,30 @@ body{background:var(--surface);color:var(--ink)}
 .toast{border-left-color:var(--gold)}
 .dev-credentials{background:var(--copper-soft,#f7efed);color:var(--navy,var(--black))!important}
 @media(max-width:700px){.panel-header{grid-template-columns:auto 1fr auto;padding-inline:4%}.panel-brand{height:46px;width:156px}.panel-logo{height:46px}.panel-logo img{max-height:44px}}
+
+/* Mobile forms, document names and team actions. */
+.panel-header > *, .section-heading > *, .client-welcome > *,
+.document-item > *, .client-document > *, .user-item > * {min-width:0}
+.client-identity, .document-item strong, .client-document strong,
+.user-item strong, .user-item span {overflow-wrap:anywhere}
+.heading-actions, .user-actions, .document-actions, .header-actions {flex-wrap:wrap}
+.document-tabs {flex-wrap:wrap;gap:.5rem 1rem}
+.login-panel input, dialog input, .filters input, .filters select {font-size:1rem;min-width:0}
+dialog {max-height:90dvh}
+@media(max-width:700px){
+  .panel-header{grid-template-columns:minmax(0,156px) minmax(0,1fr)}
+  .header-actions{grid-column:1/-1;justify-content:space-between}
+  .header-link{min-height:44px;display:inline-flex;align-items:center}
+  .client-welcome{flex-wrap:wrap}
+  .toast{left:1rem;right:1rem;bottom:1rem;overflow-wrap:anywhere}
+}
+@media(max-width:480px){
+  .heading-actions{width:100%;display:grid;grid-template-columns:1fr}
+  .heading-actions button,.user-actions button,.document-actions button{min-height:44px}
+  .user-item{align-items:flex-start;flex-direction:column}
+  .user-actions{width:100%}
+  .user-actions button{flex:1}
+  .admin-login,.client-main{padding:1.5rem 4%}
+  .document-tab{min-height:44px}
+}
+
